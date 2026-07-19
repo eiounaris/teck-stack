@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eiou.mybatis.practice.UserMapper">
+    <resultMap id="UserResultMap" type="com.eiou.mybatis.practice.DemoUser">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="status" column="status"/>
+        <result property="balance" column="balance"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS demo_user (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(100) NOT NULL UNIQUE,
+            status VARCHAR(20) NOT NULL,
+            balance DECIMAL(12, 2) NOT NULL,
+            created_at TIMESTAMP NOT NULL
+        )
+    </update>
+
+    <insert id="insertUser"
+            parameterType="com.eiou.mybatis.practice.DemoUser"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO demo_user (username, status, balance, created_at)
+        VALUES (#{username}, #{status}, #{balance}, #{createdAt})
+    </insert>
+
+    <insert id="insertUsers">
+        INSERT INTO demo_user (username, status, balance, created_at)
+        VALUES
+        <foreach collection="users" item="user" separator=",">
+            (#{user.username}, #{user.status}, #{user.balance}, #{user.createdAt})
+        </foreach>
+    </insert>
+
+    <select id="findById" resultMap="UserResultMap">
+        SELECT id, username, status, balance, created_at
+        FROM demo_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="findPageByStatus" resultMap="UserResultMap">
+        SELECT id, username, status, balance, created_at
+        FROM demo_user
+        WHERE status = #{status}
+        ORDER BY id
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE demo_user
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+</mapper>

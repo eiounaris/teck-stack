@@ -15,6 +15,8 @@
         <module>java-slf4j-logback</module>
         <module>java-jdbc</module>
         <module>java-hikaricp</module>
+        <module>java-mybatis</module>
+        <module>java-mybatis-practice</module>
         <module>java-servlet-tomcat</module>
         <module>java-cookie-session-token</module>
     </modules>

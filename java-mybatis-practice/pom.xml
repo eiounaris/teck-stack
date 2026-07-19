@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.eiou</groupId>
+        <artifactId>tech-stack</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>java-mybatis-practice</artifactId>
+    <name>Java MyBatis Practice Demo</name>
+    <description>Practical MyBatis examples with HikariCP, external configuration, mapper XML, and transaction boundaries.</description>
+
+    <properties>
+        <mybatis.version>3.5.19</mybatis.version>
+        <hikaricp.version>7.0.2</hikaricp.version>
+        <h2.version>1.4.199</h2.version>
+        <logback.version>1.5.38</logback.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikaricp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+</project>
