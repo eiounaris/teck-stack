@@ -13,6 +13,8 @@
         <module>java-junit</module>
         <module>java-mockito</module>
         <module>java-slf4j-logback</module>
+        <module>java-jdbc</module>
+        <module>java-hikaricp</module>
         <module>java-servlet-tomcat</module>
         <module>java-cookie-session-token</module>
     </modules>
