@@ -10,13 +10,9 @@ services:
       TZ: Asia/Shanghai
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./logs:/var/log/mysql
-      - ./initdb:/docker-entrypoint-initdb.d:ro
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
-      - --slow-query-log=1
-      - --slow-query-log-file=/var/log/mysql/slow.log
     networks:
       - app-network
     healthcheck:
