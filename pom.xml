@@ -16,6 +16,7 @@
         <module>java-jdbc</module>
         <module>java-hikaricp</module>
         <module>java-jedis</module>
+        <module>java-redisson</module>
         <module>java-mybatis</module>
         <module>java-mybatis-practice</module>
         <module>java-servlet-tomcat</module>
