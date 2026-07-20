@@ -1,0 +1,20 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  level:
+    com.eiou.spring.boot: WARN
+
+demo:
+  message: hello from prod profile
+  feature:
+    enabled: false
+    mode: prod
+  client:
+    base-url: https://api.example.com
+    timeout: 1s
+  labels:
+    profile: prod
+    source: application-prod.yml

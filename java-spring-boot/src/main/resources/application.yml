@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: spring-boot-demo
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.eiou.spring.boot: INFO
+
+demo:
+  message: hello from application.yml
+  feature:
+    enabled: true
+    mode: default
+  client:
+    base-url: https://api.example.local
+    timeout: 3s
+  items:
+    - core
+    - config
+    - auto-config
+  labels:
+    module: java-spring-boot
+    source: application.yml

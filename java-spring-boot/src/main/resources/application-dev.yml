@@ -1,0 +1,19 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    com.eiou.spring.boot: DEBUG
+
+demo:
+  message: hello from dev profile
+  feature:
+    enabled: true
+    mode: dev
+  client:
+    base-url: https://dev.api.example.local
+  labels:
+    profile: dev
+    source: application-dev.yml

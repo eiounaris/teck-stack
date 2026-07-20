@@ -28,6 +28,7 @@
         <module>java-spring-events-async</module>
         <module>java-spring-test</module>
         <module>java-spring-mvc</module>
+        <module>java-spring-boot</module>
     </modules>
 
     <properties>
