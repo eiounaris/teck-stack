@@ -27,6 +27,7 @@
         <module>java-spring-jdbc-tx</module>
         <module>java-spring-events-async</module>
         <module>java-spring-test</module>
+        <module>java-spring-mvc</module>
     </modules>
 
     <properties>
