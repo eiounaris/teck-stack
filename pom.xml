@@ -21,6 +21,12 @@
         <module>java-mybatis-practice</module>
         <module>java-servlet-tomcat</module>
         <module>java-cookie-session-token</module>
+        <module>java-spring-core</module>
+        <module>java-spring-lifecycle</module>
+        <module>java-spring-aop</module>
+        <module>java-spring-jdbc-tx</module>
+        <module>java-spring-events-async</module>
+        <module>java-spring-test</module>
     </modules>
 
     <properties>
