@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-boot-test-demo
+
+demo:
+  greeting:
+    message: hello from application.yml

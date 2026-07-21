@@ -29,6 +29,7 @@
         <module>java-spring-test</module>
         <module>java-spring-mvc</module>
         <module>java-spring-boot</module>
+        <module>java-spring-boot-test</module>
         <module>java-spring-boot-actuator</module>
     </modules>
 
