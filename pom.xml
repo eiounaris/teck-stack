@@ -23,6 +23,7 @@
         <module>java-servlet-tomcat</module>
         <module>java-cookie-session-token</module>
         <module>java-spring-core</module>
+        <module>java-spring-import</module>
         <module>java-spring-lifecycle</module>
         <module>java-spring-aop</module>
         <module>java-spring-jdbc-tx</module>
