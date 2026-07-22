@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: knife4j-demo
+
+server:
+  port: 8080
+
+knife4j:
+  enable: true

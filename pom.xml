@@ -37,6 +37,7 @@
         <module>java-spring-boot-custom-starter-demo</module>
         <module>java-spring-boot-actuator</module>
         <module>java-swagger</module>
+        <module>java-knife4j</module>
     </modules>
 
     <properties>
