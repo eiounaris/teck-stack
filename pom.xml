@@ -18,6 +18,7 @@
         <module>java-jedis</module>
         <module>java-redisson</module>
         <module>java-spring-data-redis</module>
+        <module>java-rabbitmq</module>
         <module>java-mybatis</module>
         <module>java-mybatis-practice</module>
         <module>java-servlet-tomcat</module>
