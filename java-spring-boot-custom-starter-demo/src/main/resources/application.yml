@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: spring-boot-custom-starter-demo
+
+debug: false
+
+demo:
+  starter:
+    greeting:
+      prefix: hi
+      suffix: from starter demo configuration

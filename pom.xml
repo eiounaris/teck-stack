@@ -32,6 +32,8 @@
         <module>java-spring-mvc</module>
         <module>java-spring-boot</module>
         <module>java-spring-boot-test</module>
+        <module>java-spring-boot-custom-starter</module>
+        <module>java-spring-boot-custom-starter-demo</module>
         <module>java-spring-boot-actuator</module>
     </modules>
 
