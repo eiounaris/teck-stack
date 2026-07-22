@@ -36,6 +36,7 @@
         <module>java-spring-boot-custom-starter</module>
         <module>java-spring-boot-custom-starter-demo</module>
         <module>java-spring-boot-actuator</module>
+        <module>java-swagger</module>
     </modules>
 
     <properties>
