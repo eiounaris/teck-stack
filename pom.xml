@@ -40,6 +40,7 @@
         <module>java-spring-boot-actuator</module>
         <module>java-swagger</module>
         <module>java-knife4j</module>
+        <module>mall-lite-order</module>
     </modules>
 
     <properties>
