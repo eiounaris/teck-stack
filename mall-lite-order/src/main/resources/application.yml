@@ -54,6 +54,13 @@ springdoc:
 knife4j:
   enable: true
 
+mall:
+  security:
+    jwt:
+      issuer: mall-lite-order
+      secret: ${JWT_SECRET:mall-lite-order-dev-jwt-secret-key-change-me-2026}
+      expiration: ${JWT_EXPIRATION:2h}
+
 logging:
   level:
     root: info

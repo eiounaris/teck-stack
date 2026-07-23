@@ -7,8 +7,10 @@
 - 已创建 Spring Boot 3.x 项目骨架
 - 已接入 Web、Validation、Security、Actuator、MyBatis-Plus、Redis、RabbitMQ、Knife4j、JWT 基础依赖
 - 已提供统一响应、全局异常处理、健康检查接口
+- 已实现用户注册、登录、JWT Bearer Token 鉴权
+- 已收紧默认访问控制，除健康检查、接口文档、注册和登录外，其余接口默认需要认证
 - 已提供 MySQL 初始化脚本和本地 Docker Compose
-- 业务模块尚未实现
+- 商品、订单、支付等业务模块尚未实现
 
 ## 技术栈
 
@@ -61,15 +63,47 @@ GET http://localhost:18084/api/health
 http://localhost:18084/doc.html
 ```
 
+## 认证接口
+
+注册：
+
+```text
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "username": "demo_user",
+  "password": "demo123456",
+  "nickname": "Demo User"
+}
+```
+
+登录：
+
+```text
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "username": "demo_user",
+  "password": "demo123456"
+}
+```
+
+访问受保护接口：
+
+```text
+Authorization: Bearer <accessToken>
+```
+
 ## 后续开发顺序
 
-1. 用户注册、登录、JWT 鉴权
-2. 商品 CRUD、分页、上下架
-3. 商品详情缓存
-4. 创建订单、扣减库存、订单明细
-5. 订单取消和库存回滚
-6. 模拟支付和支付幂等
-7. RabbitMQ TTL + DLX 超时取消
-8. 消息消费幂等
-9. 并发防超卖压测
-10. README、测试和简历描述完善
+1. 商品 CRUD、分页、上下架
+2. 商品详情缓存
+3. 创建订单、扣减库存、订单明细
+4. 订单取消和库存回滚
+5. 模拟支付和支付幂等
+6. RabbitMQ TTL + DLX 超时取消
+7. 消息消费幂等
+8. 并发防超卖压测
+9. README、测试和简历描述完善
