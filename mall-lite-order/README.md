@@ -1,6 +1,6 @@
 # Mall Lite Order
 
-轻量电商订单系统，用于沉淀 Java 后端求职项目。当前模块处于项目骨架阶段，后续会按用户、商品、订单、支付、缓存、消息队列、并发一致性逐步实现。
+轻量电商订单系统，用于沉淀 Java 后端求职项目。当前已完成项目骨架、用户认证和商品基础模块，后续会按订单、支付、缓存、消息队列、并发一致性逐步实现。
 
 ## 当前状态
 
@@ -8,9 +8,10 @@
 - 已接入 Web、Validation、Security、Actuator、MyBatis-Plus、Redis、RabbitMQ、Knife4j、JWT 基础依赖
 - 已提供统一响应、全局异常处理、健康检查接口
 - 已实现用户注册、登录、JWT Bearer Token 鉴权
-- 已收紧默认访问控制，除健康检查、接口文档、注册和登录外，其余接口默认需要认证
+- 已实现商品创建、详情、分页、上架、下架
+- 已收紧默认访问控制，除健康检查、接口文档、注册、登录、商品浏览外，其余接口默认需要认证
 - 已提供 MySQL 初始化脚本和本地 Docker Compose
-- 商品、订单、支付等业务模块尚未实现
+- 订单、支付、商品缓存、消息队列等业务能力尚未实现
 
 ## 技术栈
 
@@ -96,14 +97,43 @@ Content-Type: application/json
 Authorization: Bearer <accessToken>
 ```
 
+## 商品接口
+
+商品分页和详情为公开浏览接口：
+
+```text
+GET /api/products?page=1&size=10&status=1&keyword=Keyboard
+GET /api/products/{id}
+```
+
+商品创建、上架、下架需要登录：
+
+```text
+POST /api/products
+Authorization: Bearer <accessToken>
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard",
+  "description": "Entry product for order flow testing.",
+  "price": 299.00,
+  "stock": 100,
+  "status": 1
+}
+```
+
+```text
+PUT /api/products/{id}/on-sale
+PUT /api/products/{id}/off-sale
+```
+
 ## 后续开发顺序
 
-1. 商品 CRUD、分页、上下架
-2. 商品详情缓存
-3. 创建订单、扣减库存、订单明细
-4. 订单取消和库存回滚
-5. 模拟支付和支付幂等
-6. RabbitMQ TTL + DLX 超时取消
-7. 消息消费幂等
-8. 并发防超卖压测
-9. README、测试和简历描述完善
+1. 商品详情缓存
+2. 创建订单、扣减库存、订单明细
+3. 订单取消和库存回滚
+4. 模拟支付和支付幂等
+5. RabbitMQ TTL + DLX 超时取消
+6. 消息消费幂等
+7. 并发防超卖压测
+8. README、测试和简历描述完善

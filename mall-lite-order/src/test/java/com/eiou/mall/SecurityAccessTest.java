@@ -34,6 +34,15 @@ class SecurityAccessTest {
     }
 
     @Test
+    void productCreateRequiresAuthentication() throws Exception {
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("401"));
+    }
+
+    @Test
     void loginEndpointIsPublicButValidatesRequest() throws Exception {
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
