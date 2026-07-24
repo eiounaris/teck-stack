@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.eiou.mall.common.api.PageResponse;
 import com.eiou.mall.common.exception.BusinessException;
 import com.eiou.mall.common.exception.ErrorCode;
+import com.eiou.mall.product.cache.ProductCacheService;
 import com.eiou.mall.product.dto.CreateProductRequest;
 import com.eiou.mall.product.dto.ProductResponse;
 import com.eiou.mall.product.entity.MallProduct;
@@ -21,9 +22,11 @@ import java.util.List;
 public class ProductService {
 
     private final ProductMapper productMapper;
+    private final ProductCacheService productCacheService;
 
-    public ProductService(ProductMapper productMapper) {
+    public ProductService(ProductMapper productMapper, ProductCacheService productCacheService) {
         this.productMapper = productMapper;
+        this.productCacheService = productCacheService;
     }
 
     @Transactional
@@ -46,7 +49,23 @@ public class ProductService {
     }
 
     public ProductResponse detail(Long id) {
-        return toResponse(findById(id));
+        ProductCacheService.CacheLookup cached = productCacheService.getDetail(id);
+        if (cached.hit()) {
+            if (cached.product() == null) {
+                throw new BusinessException(ErrorCode.NOT_FOUND, "Product not found");
+            }
+            return cached.product();
+        }
+
+        MallProduct product = productMapper.selectById(id);
+        if (product == null) {
+            productCacheService.cacheNull(id);
+            throw new BusinessException(ErrorCode.NOT_FOUND, "Product not found");
+        }
+
+        ProductResponse response = toResponse(product);
+        productCacheService.cacheDetail(response);
+        return response;
     }
 
     public PageResponse<ProductResponse> page(long page, long size, Integer status, String keyword) {
@@ -80,6 +99,7 @@ public class ProductService {
         MallProduct product = findById(id);
         product.setStatus(status.code());
         productMapper.updateById(product);
+        productCacheService.evictDetail(id);
         return toResponse(product);
     }
 

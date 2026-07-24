@@ -40,30 +40,30 @@ public class ProductController {
 
     @Operation(summary = "Get product detail")
     @GetMapping("/{id}")
-    public ApiResponse<ProductResponse> detail(@PathVariable Long id) {
+    public ApiResponse<ProductResponse> detail(@PathVariable("id") Long id) {
         return ApiResponse.ok(productService.detail(id));
     }
 
     @Operation(summary = "Page products")
     @GetMapping
     public ApiResponse<PageResponse<ProductResponse>> page(
-            @RequestParam(defaultValue = "1") @Min(1) long page,
-            @RequestParam(defaultValue = "10") @Min(1) @Max(100) long size,
-            @RequestParam(required = false) Integer status,
-            @RequestParam(required = false) String keyword
+            @RequestParam(name = "page", defaultValue = "1") @Min(1) long page,
+            @RequestParam(name = "size", defaultValue = "10") @Min(1) @Max(100) long size,
+            @RequestParam(name = "status", required = false) Integer status,
+            @RequestParam(name = "keyword", required = false) String keyword
     ) {
         return ApiResponse.ok(productService.page(page, size, status, keyword));
     }
 
     @Operation(summary = "Put product on sale")
     @PutMapping("/{id}/on-sale")
-    public ApiResponse<ProductResponse> onSale(@PathVariable Long id) {
+    public ApiResponse<ProductResponse> onSale(@PathVariable("id") Long id) {
         return ApiResponse.ok(productService.onSale(id));
     }
 
     @Operation(summary = "Put product off sale")
     @PutMapping("/{id}/off-sale")
-    public ApiResponse<ProductResponse> offSale(@PathVariable Long id) {
+    public ApiResponse<ProductResponse> offSale(@PathVariable("id") Long id) {
         return ApiResponse.ok(productService.offSale(id));
     }
 }

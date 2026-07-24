@@ -60,6 +60,12 @@ mall:
       issuer: mall-lite-order
       secret: ${JWT_SECRET:mall-lite-order-dev-jwt-secret-key-change-me-2026}
       expiration: ${JWT_EXPIRATION:2h}
+  cache:
+    product:
+      detail-key-prefix: "mall:product:detail:"
+      detail-ttl: 30m
+      null-ttl: 2m
+      ttl-jitter: 5m
 
 logging:
   level:

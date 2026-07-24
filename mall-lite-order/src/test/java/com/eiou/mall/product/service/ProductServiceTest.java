@@ -6,6 +6,7 @@ import com.eiou.mall.common.exception.BusinessException;
 import com.eiou.mall.product.dto.CreateProductRequest;
 import com.eiou.mall.product.dto.ProductResponse;
 import com.eiou.mall.product.entity.MallProduct;
+import com.eiou.mall.product.cache.ProductCacheService;
 import com.eiou.mall.product.mapper.ProductMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,9 @@ class ProductServiceTest {
 
     @Mock
     private ProductMapper productMapper;
+
+    @Mock
+    private ProductCacheService productCacheService;
 
     @InjectMocks
     private ProductService productService;
@@ -89,6 +94,52 @@ class ProductServiceTest {
     }
 
     @Test
+    void detailReturnsCachedProduct() {
+        ProductResponse cached = productResponse(1L, "Mechanical Keyboard", 1);
+        when(productCacheService.getDetail(1L)).thenReturn(new ProductCacheService.CacheLookup(true, cached));
+
+        ProductResponse response = productService.detail(1L);
+
+        assertThat(response).isEqualTo(cached);
+        verifyNoInteractions(productMapper);
+    }
+
+    @Test
+    void detailLoadsFromDatabaseAndCachesOnMiss() {
+        when(productCacheService.getDetail(1L)).thenReturn(new ProductCacheService.CacheLookup(false, null));
+        MallProduct product = product(1L, "Mechanical Keyboard", 1);
+        when(productMapper.selectById(1L)).thenReturn(product);
+
+        ProductResponse response = productService.detail(1L);
+
+        assertThat(response.name()).isEqualTo("Mechanical Keyboard");
+        verify(productCacheService).cacheDetail(response);
+    }
+
+    @Test
+    void detailCachesNullWhenProductMissing() {
+        when(productCacheService.getDetail(404L)).thenReturn(new ProductCacheService.CacheLookup(false, null));
+        when(productMapper.selectById(404L)).thenReturn(null);
+
+        assertThatThrownBy(() -> productService.detail(404L))
+                .isInstanceOf(BusinessException.class)
+                .hasMessage("Product not found")
+                .satisfies(exception -> assertThat(((BusinessException) exception).code()).isEqualTo("404"));
+        verify(productCacheService).cacheNull(404L);
+    }
+
+    @Test
+    void detailRejectsCachedNullProduct() {
+        when(productCacheService.getDetail(404L)).thenReturn(new ProductCacheService.CacheLookup(true, null));
+
+        assertThatThrownBy(() -> productService.detail(404L))
+                .isInstanceOf(BusinessException.class)
+                .hasMessage("Product not found")
+                .satisfies(exception -> assertThat(((BusinessException) exception).code()).isEqualTo("404"));
+        verifyNoInteractions(productMapper);
+    }
+
+    @Test
     void pageMapsRecords() {
         MallProduct product = new MallProduct();
         product.setId(1L);
@@ -127,5 +178,31 @@ class ProductServiceTest {
         assertThat(response.status()).isEqualTo(1);
         assertThat(response.statusText()).isEqualTo("ON_SALE");
         verify(productMapper).updateById(product);
+        verify(productCacheService).evictDetail(1L);
+    }
+
+    private MallProduct product(Long id, String name, Integer status) {
+        MallProduct product = new MallProduct();
+        product.setId(id);
+        product.setName(name);
+        product.setDescription("Description");
+        product.setPrice(new BigDecimal("299.00"));
+        product.setStock(100);
+        product.setStatus(status);
+        return product;
+    }
+
+    private ProductResponse productResponse(Long id, String name, Integer status) {
+        return new ProductResponse(
+                id,
+                name,
+                "Description",
+                new BigDecimal("299.00"),
+                100,
+                status,
+                status == 1 ? "ON_SALE" : "OFF_SALE",
+                null,
+                null
+        );
     }
 }
